@@ -1,6 +1,6 @@
-const { admin } = require("../models");
+const { Admin } = require("../models");
 const Joi = require("joi");
-const HashPass = require("../helper/authHash");
+const { authHash } = require("../helper/authHash");
 const Bcrypt = require("bcrypt");
 const Jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -33,7 +33,7 @@ module.exports = {
         });
       }
 
-      const checkUsername = await Users.findOne({
+      const checkUsername = await Admin.findOne({
         where: { username: username },
       });
 
@@ -46,7 +46,7 @@ module.exports = {
 
       const hashPassword = await authHash(password);
 
-      const signUp = await Users.create({
+      const signUp = await Admin.create({
         name,
         username,
         password: hashPassword,
@@ -77,7 +77,9 @@ module.exports = {
     const body = req.body;
 
     try {
-      const checkUsername = await Users.findOne({ username: username });
+      const checkUsername = await Admin.findOne({
+        where: { username: username },
+      });
 
       if (!checkUsername) {
         return res.status(400).json({
