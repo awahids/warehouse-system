@@ -1,0 +1,32 @@
+{
+  "name": "cr-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awahids/warehouse-system.git"
+  },
+  "author": "A Wahid Safhadi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awahids/warehouse-system/issues"
+  },
+  "homepage": "https://github.com/awahids/warehouse-system#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "heroku": "^7.59.2",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.1",
+    "sequelize": "^6.12.0-alpha.1",
+    "sequelize-cli": "^6.3.0"
+  }
+}
