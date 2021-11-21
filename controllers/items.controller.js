@@ -86,7 +86,7 @@ module.exports = {
         if (!findMostStock) {
           return res.status(400).json({
             status: "Failed",
-            message: "Item Cannot Found",
+            message: "Items Cannot Found",
           });
         }
 
@@ -103,7 +103,7 @@ module.exports = {
         if (!findLowStock) {
           return res.status(400).json({
             status: "Failed",
-            message: "Item Cannot Found",
+            message: "Items Cannot Found",
           });
         }
 
@@ -120,7 +120,7 @@ module.exports = {
         if (!findHighPrice) {
           return res.status(400).json({
             status: "Failed",
-            message: "Item Cannot Found",
+            message: "Items Cannot Found",
           });
         }
 
@@ -137,7 +137,7 @@ module.exports = {
         if (!findLowPrice) {
           return res.status(400).json({
             status: "Failed",
-            message: "Item Cannot Found",
+            message: "Items Cannot Found",
           });
         }
 
@@ -146,12 +146,13 @@ module.exports = {
           message: "Success retrieved data items",
           data: findLowPrice,
         });
+
       } else {
         const findItems = await Item.findAll();
         if (!findItems) {
           return res.status(400).json({
             status: "failed",
-            message: "cannot find item",
+            message: "Items Cannot Found",
           });
         }
 
