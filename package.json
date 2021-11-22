@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "start": "set NODE_ENV=development&& node index.js",
     "db:migrate": "sequelize db:migrate",
     "db:migrate:rollback": "sequelize db:migrate:undo:all",
     "db:seed": "sequelize-cli db:seed:all",
