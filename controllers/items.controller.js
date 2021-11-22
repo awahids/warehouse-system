@@ -66,7 +66,6 @@ module.exports = {
             "Sembako, Electronik, MCK, Mainan, Others only for Category Data Item",
         });
       }
-      console.log(error);
       return res.status(500).json({
         status: "failed",
         message: "internal server error",
@@ -171,26 +170,25 @@ module.exports = {
   },
 
   showItemById: async (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
 
     try {
       const findItemById = await Item.findOne({
-        where: {id:id}
-      })
+        where: { id: id },
+      });
 
       if (!findItemById) {
         return res.status(400).json({
           status: "Failed",
-          message: `id ${id} not found`
-        })
+          message: `id ${id} not found`,
+        });
       }
 
       return res.status(200).json({
         status: "Success",
         message: "Success retrieved data",
-        data: findItemById
-      })
-      
+        data: findItemById,
+      });
     } catch (error) {
       return res.status(500).json({
         status: "Failed",
@@ -242,6 +240,101 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({
         status: "Failed",
+        message: "internal server error",
+      });
+    }
+  },
+
+  deleteItemById: async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      const deleteItemById = await Item.destroy({
+        where: { id: id },
+      });
+
+      if (!deleteItemById) {
+        return res.status(400).json({
+          status: "Failed",
+          message: `cannot delete item with id ${id}`,
+        });
+      }
+
+      return res.status(200).json({
+        status: "Success",
+        message: "Success deleted item",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "Failed",
+        message: "internal server error",
+      });
+    }
+  },
+
+  showItemsByCategory: async (req, res) => {
+    const category = req.params.category;
+
+    try {
+      const findItemsByCategory = await Item.findAll({
+        where: { category: category },
+      });
+
+      if (!findItemsByCategory) {
+        return res.status(400).json({
+          status: "Failed",
+          message: `Cannot found category ${category}`,
+        });
+      }
+
+      return res.status(200).json({
+        status: "Success",
+        message: "Success retrieved data",
+        data: findItemsByCategory,
+      });
+    } catch (error) {
+      if (
+        error.name === "SequelizeDatabaseError" &&
+        error.parent.routine === "enum_in"
+      ) {
+        return res.status(400).json({
+          status: "failed",
+          message:
+            "Sembako, Electronik, MCK, Mainan, Others only for Category Data Item",
+        });
+      }
+      return res.status(500).json({
+        status: "failed",
+        message: "internal server error",
+      });
+    }
+  },
+
+  searchingItems: async (req, res) => {
+    const search = req.query.search ? req.query.search : "";
+
+    try {
+      const findItems = await Item.findAll({
+        where: {
+          name: { [Op.iLike]: "%" + search + "%" },
+        },
+      });
+
+      if (!findItems && findItems.length == 0) {
+        return res.status(400).json({
+          status: "Failed",
+          message: "No name match witch your input",
+        });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        message: "success retrieved data",
+        data: findItems,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "failed",
         message: "internal server error",
       });
     }
