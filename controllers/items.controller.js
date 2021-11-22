@@ -3,8 +3,9 @@ const Joi = require("joi");
 const { Op } = require("sequelize");
 
 module.exports = {
-  addItems: async (req, res) => {
+  addItem: async (req, res) => {
     const { name, stock, price, category } = req.body;
+    const body = req.body;
 
     try {
       const Schema = Joi.object({
@@ -146,7 +147,6 @@ module.exports = {
           message: "Success retrieved data items",
           data: findLowPrice,
         });
-
       } else {
         const findItems = await Item.findAll();
         if (!findItems) {
@@ -162,6 +162,83 @@ module.exports = {
           data: findItems,
         });
       }
+    } catch (error) {
+      return res.status(500).json({
+        status: "Failed",
+        message: "internal server error",
+      });
+    }
+  },
+
+  showItemById: async (req, res) => {
+    const id = req.params.id
+
+    try {
+      const findItemById = await Item.findOne({
+        where: {id:id}
+      })
+
+      if (!findItemById) {
+        return res.status(400).json({
+          status: "Failed",
+          message: `id ${id} not found`
+        })
+      }
+
+      return res.status(200).json({
+        status: "Success",
+        message: "Success retrieved data",
+        data: findItemById
+      })
+      
+    } catch (error) {
+      return res.status(500).json({
+        status: "Failed",
+        message: "internal server error",
+      });
+    }
+  },
+
+  updateItemById: async (req, res) => {
+    const { name, stock, price, category } = req.body;
+    const id = req.params.id;
+
+    try {
+      const updateItemById = await Item.update(
+        {
+          name: name,
+          stock: stock,
+          price: price,
+          category: category,
+        },
+        {
+          where: { id: id },
+        }
+      );
+
+      if (!updateItemById[0]) {
+        return res.status(400).json({
+          status: "Failed",
+          message: "Items cannot found",
+        });
+      }
+
+      const findByOne = await Item.findOne({
+        where: { id: id },
+      });
+
+      if (!findByOne) {
+        return res.status(400).json({
+          status: "Failed",
+          message: "Items cannot found",
+        });
+      }
+
+      return res.status(200).json({
+        status: "Success",
+        message: "Success updated data",
+        data: findByOne,
+      });
     } catch (error) {
       return res.status(500).json({
         status: "Failed",

@@ -1,6 +1,6 @@
 const { Admin } = require("../models");
 const Joi = require("joi");
-const { authHash } = require("../helper/authHash");
+const { authHash } = require("../helper/auth");
 const Bcrypt = require("bcrypt");
 const Jwt = require("jsonwebtoken");
 require("dotenv").config();
