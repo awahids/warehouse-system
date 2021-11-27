@@ -107,7 +107,7 @@ module.exports = {
 
       Jwt.sign(
         payload,
-        warehouse_secret,
+        process.env.PWD_TOKEN,
         { expiresIn: 3600 * 1 },
         (err, token) => {
           return res.status(200).json({
